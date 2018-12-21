@@ -1,33 +1,37 @@
 package app.book;
 
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
 public class BookController {
 
     @GetMapping
-    String list() {
-        return "all books";
+    List<Book> list() {
+        return new ArrayList<Book>();
     }
 
     @GetMapping("/{id}")
-    String get(@PathVariable Long id) {
-
-        return "one_ book"+ id;
+    Book get(@PathVariable Long id) {
+        return new Book();
     }
 
     @PostMapping
-    Book newBook(@RequestBody Book newBook) {
-        //return repository.save(newEmployee);
-        return  newBook;
+    Book create(@RequestBody Book newBook) {
+        return  new Book();
     }
 
+    @PutMapping("/{id}")
+    Book update(@RequestBody Book newBook, @PathVariable Long id) {
+        return   new Book();
+    }
+
+    @DeleteMapping("/{id}")
+    void delete(@PathVariable Long id) {
+    }
 
 }
