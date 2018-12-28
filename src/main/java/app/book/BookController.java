@@ -1,8 +1,12 @@
 package app.book;
 
 
+import app.exception.NotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,28 +14,38 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
+    @Autowired
+    BookRepository bookRepository;
+
     @GetMapping
     List<Book> list() {
-        return new ArrayList<Book>();
+        List<Book> books = new ArrayList<>();
+        bookRepository.findAll().forEach(books::add);
+        return books;
     }
 
     @GetMapping("/{id}")
     Book get(@PathVariable Long id) {
-        return new Book();
+        return bookRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Book %d not found", id)));
     }
 
     @PostMapping
-    Book create(@RequestBody Book newBook) {
-        return  new Book();
+    @ResponseStatus(HttpStatus.CREATED)
+    Book create(@Valid @RequestBody Book newBook) {
+        return bookRepository.save(newBook);
     }
 
     @PutMapping("/{id}")
-    Book update(@RequestBody Book newBook, @PathVariable Long id) {
-        return   new Book();
+    Book update(@Valid @RequestBody Book book, @PathVariable Long id) {
+        bookRepository.findById(id).orElseThrow(() -> new NotFoundException(String.format("Book %d not found", id)));
+        book.setId(id);
+        return bookRepository.save(book);
     }
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable Long id) {
+        bookRepository.deleteById(id);
     }
+
 
 }
