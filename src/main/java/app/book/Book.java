@@ -1,9 +1,6 @@
 package app.book;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -16,6 +13,10 @@ public class Book {
     String isbn;
     @NotBlank
     String author;
+
+
+    @Enumerated(EnumType.STRING)
+    Language language;
 
     public String getTitle() {
         return title;
@@ -46,5 +47,11 @@ public class Book {
         this.author = author;
     }
 
+    public Language getLanguage() {
+        return language;
+    }
 
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
 }

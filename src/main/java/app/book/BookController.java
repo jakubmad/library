@@ -2,7 +2,6 @@ package app.book;
 
 
 import app.exception.NotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +13,12 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    @Autowired
+  // @Autowired
     BookRepository bookRepository;
+
+    BookController(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
+    }
 
     @GetMapping
     List<Book> list() {
